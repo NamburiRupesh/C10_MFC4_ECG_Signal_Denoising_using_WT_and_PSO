@@ -1,81 +1,75 @@
-Team Members
+# **MFC4 Project – README**
 
-Rupesh Namburi – CB.SC.U4AIE24234
+## **Project Topic**
+**An Efficient ECG Signal Denoising Technique Based on the Combination of Particle Swarm Optimisation and Wavelet Transform**
 
-Karlapati Sreeshanth – CB.SC.U4AIE24225
+---
 
-Gandrothu Karthik – CB.SC.U4AIE24217
+## **Team Members**
+- **Rupesh Namburi** – CB.SC.U4AIE24234  
+- **Karlapati Sreeshanth** – CB.SC.U4AIE24225  
+- **Gandrothu Karthik** – CB.SC.U4AIE24217  
+- **Yaramati Uday Sri** – CB.SC.U4AIE24260  
 
-Yaramati Uday Sri – CB.SC.U4AIE24260
+---
 
-Base / Reference Paper(s)
+## **Base / Reference Paper(s)**
+- **An Efficient ECG Signals Denoising Technique Based on the Combination of Particle Swarm Optimisation and Wavelet Transform**  
+  *Heliyon, 2024*  
+  Paper Link: https://www.cell.com/heliyon/fulltext/S2405-8440(24)02202-3
 
-The project is based on the reference paper provided by the instructor, which focuses on signal decomposition using Wavelet Transform and optimization-based feature selection using Particle Swarm Optimization (PSO) for improved analysis and performance.
+- Additional references include standard literature on Discrete Wavelet Transform (DWT) and Particle Swarm Optimisation (PSO) for signal denoising and feature optimisation.
 
-Additional concepts are referred from standard signal processing and optimization literature related to Discrete Wavelet Transform (DWT) and PSO algorithms.
+---
 
-Project Outline
+## **Project Outline**
+The objective of this project is to remove noise from ECG signals using a hybrid approach that combines Wavelet Transform for signal decomposition and Particle Swarm Optimisation (PSO) for optimal parameter selection, thereby improving signal quality and diagnostic reliability.
 
-The objective of this project is to analyze signals using advanced signal processing and optimization techniques to improve feature representation and overall system performance.
+The project workflow consists of the following steps:
 
-The project follows these major steps:
+1. **ECG Signal Acquisition**  
+   - Load ECG signals from a dataset or recorded source.
 
-Input Signal Acquisition
+2. **Preprocessing**
+   - Normalize ECG signals and remove baseline wander and artifacts if present.
 
-Load and preprocess the input signal/data obtained from the given dataset or experimental source.
+3. **Wavelet Transform (Completed)**  
+   - Apply Discrete Wavelet Transform (DWT) to decompose the ECG signal into multiple frequency sub-bands.
+   - Separate noise-dominant components from useful ECG information.
+   - Reconstruct the signal using selected wavelet coefficients.
 
-Signal Preprocessing
+4. **Feature and Parameter Extraction**
+   - Extract relevant parameters from wavelet coefficients for optimization.
 
-Remove noise and unwanted components from the signal to make it suitable for further analysis.
+5. **Particle Swarm Optimisation (PSO) (Planned)**  
+   - Optimize wavelet parameters and threshold values using PSO.
+   - Improve denoising performance by minimizing noise while preserving ECG morphology.
 
-Wavelet Transform (Completed)
+6. **Denoised Signal Reconstruction**
+   - Reconstruct the ECG signal using optimized parameters.
 
-Apply Wavelet Transform to decompose the signal into multiple frequency sub-bands.
+7. **Performance Evaluation**
+   - Evaluate denoising effectiveness using metrics such as Signal-to-Noise Ratio (SNR), Mean Square Error (MSE), and visual comparison.
 
-Extract time–frequency features that capture both low-frequency (approximation) and high-frequency (detail) components.
+---
 
-This helps in better representation of non-stationary signals compared to traditional methods.
+## **Updates**
 
-Feature Extraction
 
-Extract meaningful statistical and energy-based features from the wavelet coefficients.
+---
 
-These features form the input for the optimization stage.
+## **Challenges / Issues Faced**
+- Understanding ECG signal characteristics and different noise sources.
+- Selecting suitable wavelet functions and decomposition levels.
+- Implementing wavelet-based denoising effectively.
+- Integrating PSO with wavelet-based denoising methods.
 
-Particle Swarm Optimization (PSO) (Planned)
+---
 
-Use PSO to select the most relevant and optimal features.
+## **Future Plans**
+- Complete implementation of **Particle Swarm Optimisation (PSO)**.
+- Optimize wavelet thresholds and parameters using PSO.
+- Compare results with traditional denoising methods.
+- Improve quantitative and visual analysis of denoised ECG signals.
+- Document results and findings in detail.
 
-Reduce redundancy and improve computational efficiency.
-
-Enhance overall accuracy and performance of the system.
-
-Performance Evaluation
-
-Compare results before and after optimization.
-
-Analyze improvements in terms of accuracy, efficiency, and robustness.
-
-Updates
-<!-- To be updated in future commits -->
-Challenges / Issues Faced
-
-Understanding the mathematical background of Wavelet Transform and its decomposition levels.
-
-Selecting appropriate wavelet functions and decomposition depth.
-
-Handling signal noise and preprocessing effectively.
-
-Integrating optimization techniques with extracted features.
-
-Future Plans
-
-Complete the implementation of Particle Swarm Optimization (PSO) for feature selection.
-
-Fine-tune PSO parameters for better convergence and performance.
-
-Evaluate the optimized system using multiple performance metrics.
-
-Improve result visualization and documentation.
-
-Extend the project by comparing PSO with other optimization techniques if time permits.
