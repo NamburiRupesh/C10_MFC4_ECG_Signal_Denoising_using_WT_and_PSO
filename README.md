@@ -220,3 +220,233 @@ $$
 ---
 
 Soft thresholding generally provides smoother signal reconstruction compared to hard thresholding, making it more suitable for ECG signal denoising.
+
+
+---
+
+### 3. Signal Reconstruction
+
+After the thresholding operation is applied to the wavelet coefficients, the final step of the denoising process is **signal reconstruction**. In this stage, the denoised ECG signal is reconstructed using the **Inverse Discrete Wavelet Transform (iDWT)**.
+
+The reconstruction process combines the **approximation coefficients** and the **thresholded detail coefficients** from all decomposition levels to recover the time-domain ECG signal.
+
+The reconstructed denoised ECG signal is expressed as:
+
+$$
+ECG_{denoised} =
+\sum_{k=-\infty}^{\infty} cA_L(k)\phi'_i(t-k)
++
+\sum_{i=1}^{L}
+\sum_{k=-\infty}^{\infty} cD_{i+1}(k)\psi'_i(t-k)
+$$
+
+Where:
+
+- $ECG_{denoised}$ represents the **reconstructed ECG signal**
+- $cA_L(k)$ represents the **approximation coefficients at the final decomposition level**
+- $cD_i(k)$ represents the **detail coefficients**
+- $\phi'$ represents the **reconstruction scaling function**
+- $\psi'$ represents the **reconstruction wavelet function**
+- $L$ represents the **decomposition level**
+
+During reconstruction, the wavelet coefficients are processed through:
+
+- **Upsampling**
+- **Low-pass and high-pass filtering**
+- **Summation of reconstructed components**
+
+This process restores the ECG signal in the **time domain while minimizing the effect of noise**, resulting in a denoised signal that preserves the important morphological features of the ECG waveform.
+
+---
+
+### Wavelet Denoising Parameters
+
+Wavelet-based ECG denoising depends on selecting appropriate parameter configurations. These parameters control how the signal is decomposed, thresholded, and reconstructed. The ranges of parameters used in this work are summarized below.
+
+#### Table 1: Parameter ranges for wavelet denoising
+
+| Parameter | Range |
+|----------|-------|
+| Wavelet basis function (Φ) | Coiflet (coif1–coif5), Symlet (sym1–sym45), Daubechies (db1–db45), Fejer-Korovkin (fk4, fk8, fk14, fk18, fk22), Biorthogonal (bior1.1–bior1.5, bior2.2–bior2.8, bior3.1–bior3.9) |
+| Threshold function (β) | Soft (s), Hard (h) |
+| Decomposition level (L) | 1 – 10 |
+| Threshold selection rule (λ) | Sqtwolog, Minimax, Heursure, Rigrsure |
+| Rescaling method (ρ) | No scaling (one), Single level (sln), Multiple levels (mln) |
+
+---
+
+Table 2: Threshold Selection Rules
+
+| Rule | Description |
+|-----|-------------|
+| Rigrsure | Threshold based on Stein’s Unbiased Risk Estimate (SURE) |
+| Sqtwolog | Threshold chosen as √(2 log M) |
+| Heursure | Combination of Rigrsure and Sqtwolog |
+| Minimax | Threshold chosen to minimize the maximum mean square error (MSE) |
+
+---
+
+#### Table 3: Rescaling methods for wavelet thresholding
+
+| Rescaling Method | Description |
+|------------------|-------------|
+| sln | Single level scaling |
+| mln | Multiple level scaling |
+| one | No scaling |
+
+---
+The parameters listed above define the possible configurations of the wavelet-based ECG denoising process. The effectiveness of the denoising method largely depends on selecting the right combination of these parameters. Choosing them manually can be difficult and time-consuming. To address this, Particle Swarm Optimisation (PSO) is used to automatically search for the optimal parameter set that improves the denoising performance.
+
+## Particle Swarm Optimisation (PSO)
+
+### Intuition Behind PSO
+
+Particle Swarm Optimisation (PSO) is a population-based optimization algorithm inspired by the collective behavior of natural systems such as bird flocks or fish schools. In PSO, a group of candidate solutions called **particles** explore the search space to find the optimal solution.
+
+Each particle represents a possible solution to the optimization problem. During the search process, particles update their positions based on their own experience and the experience of neighboring particles. Through this cooperative behavior, the swarm gradually converges toward the best solution.
+
+The movement of each particle is influenced by two key factors:
+
+- **Personal best (pbest):** the best solution found by the particle itself.
+- **Global best (gbest):** the best solution found by the entire swarm.
+
+By continuously updating particle positions using these two pieces of information, PSO efficiently searches for the optimal parameter configuration.
+
+---
+### PSO Representation for Wavelet Parameter Optimization
+
+In this work, Particle Swarm Optimisation (PSO) is used to find the optimal parameters for wavelet-based ECG denoising.
+
+Each particle in the swarm represents a **possible set of wavelet parameters** used in the denoising process.
+
+The parameter vector of a particle is defined as:
+
+$$
+x = (\Phi, L, \beta, \lambda, \rho)
+$$
+
+Where:
+
+- $\Phi$ – wavelet basis function  
+- $L$ – decomposition level  
+- $\beta$ – thresholding function (soft or hard)  
+- $\lambda$ – threshold selection rule  
+- $\rho$ – rescaling method  
+
+Each particle tests a different combination of these parameters. The quality of each solution is evaluated using a **fitness function** that measures how well the ECG signal is denoised.
+
+During the optimization process, particles update their positions and move toward better solutions. Over multiple iterations, the swarm converges to the parameter set that provides the **best denoising performance**.
+
+Each particle explores different combinations of these parameters in the search space. The quality of each candidate solution is evaluated using a **fitness function**, which measures how effectively the denoising process improves the ECG signal quality.
+
+Through iterative updates of particle positions and velocities, the swarm gradually converges toward the parameter configuration that produces the best denoising performance.
+
+
+--
+### Proposed Method Workflow
+
+The overall workflow of the proposed ECG denoising method is illustrated in **Figure 4**.
+
+![Proposed Method Workflow](images/pso_wt_workflow.png)
+
+**Figure 4:** Workflow of the proposed ECG denoising framework using Wavelet Transform and Particle Swarm Optimisation.
+--
+### PSO Algorithm
+
+The Particle Swarm Optimisation (PSO) algorithm is used to search for the optimal set of wavelet denoising parameters. The algorithm works by iteratively improving a population of candidate solutions called **particles**.
+
+Each particle represents a possible combination of wavelet parameters and moves through the search space to find a better solution.
+
+The main steps of the PSO algorithm used in this work are:
+
+1. **Initialize the parameters**
+   - Read the original ECG signal.
+   - Initialize the wavelet denoising parameters.
+   - Generate the noisy ECG signal.
+
+2. **Initialize the swarm**
+   - Randomly initialize particle positions and velocities.
+   - Each particle represents a candidate set of wavelet parameters.
+
+3. **Evaluate particle fitness**
+   - Apply wavelet denoising using the parameters represented by the particle.
+   - Compute the fitness value for each particle.
+
+4. **Update personal best and global best**
+   - Each particle stores its best solution found so far (**pbest**).
+   - The best solution among all particles is stored as **gbest**.
+
+5. **Update particle velocity and position**
+   - Particle velocity and position are updated so that particles move toward better solutions.
+
+6. **Check stopping condition**
+   - If the stopping criteria is not satisfied, repeat the process.
+   - Otherwise, stop the algorithm.
+
+7. **Obtain optimal parameters**
+   - The global best particle provides the optimal wavelet parameters.
+
+Using these optimized parameters, the ECG signal is denoised using **Discrete Wavelet Transform (DWT)** and the final signal is reconstructed using **inverse DWT (iDWT)**.
+
+--
+### Mathematical Formulation of PSO
+
+In the PSO algorithm, each particle moves in the search space by updating its **velocity** and **position** at every iteration. These updates guide the particles toward better solutions.
+
+The velocity update equation is defined as:
+
+$$
+v_i(t+1) =
+\omega v_i(t)
++
+c_1 r_1 (p_i - x_i(t))
++
+c_2 r_2 (g - x_i(t))
+$$
+
+Where:
+
+- $v_i(t)$ – velocity of particle $i$ at iteration $t$
+- $\omega$ – inertia weight controlling the influence of previous velocity
+- $c_1$ – cognitive learning coefficient
+- $c_2$ – social learning coefficient
+- $r_1, r_2$ – random numbers in the range [0,1]
+- $p_i$ – personal best position of particle $i$
+- $g$ – global best position found by the swarm
+- $x_i(t)$ – current position of particle $i$
+
+After updating the velocity, the particle position is updated using:
+
+$$
+x_i(t+1) = x_i(t) + v_i(t+1)
+$$
+
+Where:
+
+- $x_i(t)$ represents the current position of particle $i$
+- $x_i(t+1)$ represents the updated particle position
+
+Through these iterative updates, particles move toward the best solutions discovered by both their own experience (**pbest**) and the swarm (**gbest**).
+
+--
+### Fitness Function for Optimization
+
+To evaluate the quality of each particle in the swarm, a **fitness function** is used. The fitness function measures how well the selected wavelet parameters improve the quality of the ECG signal after denoising.
+
+In this work, the objective is to maximize the **Signal-to-Noise Ratio (SNR) improvement** obtained after applying the wavelet denoising process.
+
+The SNR improvement is defined as:
+
+$$
+SNR_{imp} = SNR_{output} - SNR_{input}
+$$
+
+Where:
+
+- $SNR_{input}$ represents the signal-to-noise ratio of the **noisy ECG signal**
+- $SNR_{output}$ represents the signal-to-noise ratio of the **denoised ECG signal**
+
+The PSO algorithm searches for the parameter combination that **maximizes the SNR improvement**, resulting in better noise suppression while preserving important ECG signal features.
+
+During the optimization process, each particle's parameter set is applied to the wavelet denoising procedure, and the resulting SNR improvement is used as the **fitness value**.
+
