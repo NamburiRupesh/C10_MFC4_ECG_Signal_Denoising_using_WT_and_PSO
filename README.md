@@ -450,3 +450,85 @@ The PSO algorithm searches for the parameter combination that **maximizes the SN
 
 During the optimization process, each particle's parameter set is applied to the wavelet denoising procedure, and the resulting SNR improvement is used as the **fitness value**.
 
+---
+## Results
+
+This section presents the results of the proposed **PSO-based Wavelet Transform ECG denoising method** and **Wavelet Operation Analysis**. Several toy signals were first used to validate the PSO approach, followed by experiments on a real ECG signal.
+
+--
+## Wavelet Operation Analysis
+
+To understand the computational cost of basic wavelet operations, we analyzed the execution time required for **wavelet shifting** and **wavelet scaling**. These operations form the basis of wavelet transform analysis and are important for understanding the computational behavior of the denoising process.
+
+---
+
+### Wavelet Shifting
+
+![Wavelet Shifting](images/wavelet_shifting.png)
+
+**Figure 4:** Illustration of wavelet shifting, where the wavelet function is translated along the time axis to analyze different signal locations.
+
+Execution time: **0.185391 seconds**
+
+---
+
+### Wavelet Scaling
+
+![Wavelet Scaling](images/wavelet_scaling.png)
+
+**Figure 5:** Illustration of wavelet scaling, where the wavelet function is stretched or compressed to analyze different frequency components of the signal.
+
+Execution time: **0.106918 seconds**
+
+---
+
+## PSO-Based Denoising Experiments
+
+To evaluate the performance of the proposed **Particle Swarm Optimisation (PSO) based Wavelet Transform denoising method**, experiments were conducted on several toy signals as well as a real ECG signal. The execution time for each experiment was measured using MATLAB's `tic` and `toc` commands.
+
+---
+
+### Toy Example 1: Single Sinusoidal Signal
+
+![Single Sine Denoising](images/single_sine_denoising.png)
+
+**Figure 6:** Denoising of a single sinusoidal signal corrupted with Gaussian noise using the PSO-optimized wavelet parameters.
+
+Execution time: **1.153597 seconds**
+
+---
+
+### Toy Example 2: Multi-Frequency Signal
+
+![Multi Frequency Denoising](images/multi_frequency_denoising.png)
+
+**Figure 7:** Denoising of a composite multi-frequency signal consisting of several sine and cosine components.
+
+Execution time: **2.395561 seconds**
+
+---
+
+### Toy Example 3: Piecewise Signal
+
+![Piecewise Signal Denoising](images/piecewise_signal_denoising.png)
+
+**Figure 8:** Denoising of a piecewise signal containing step and ramp segments using PSO-optimized wavelet parameters.
+
+Execution time: **1.578835 seconds**
+
+---
+## PSO–WT ECG Denoising
+
+The proposed PSO-based wavelet denoising framework was also applied to a real ECG signal dataset.
+
+![ECG PSO WT Denoising](images/ecg_pso_wt_denoising.png)
+
+**Figure 9:** Comparison between the original ECG signal, noisy ECG signal, and the denoised ECG signal obtained using the PSO–WT method.
+
+Execution time: **60.521735 seconds**
+
+## Visualization of SNR Improvement
+
+![SNR Improvement Plot](images/snr_improvement_plot.png)
+
+**Figure 10:** SNR improvement observation of 50 particles.
