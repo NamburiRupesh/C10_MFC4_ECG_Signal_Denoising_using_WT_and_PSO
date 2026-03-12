@@ -167,7 +167,7 @@ Where:
 
 - $D_{ij}$ represents the **detail coefficients at unit scale**
 
----
+
 
 The general thresholding operation applied to the noisy wavelet coefficients is expressed as:
 
