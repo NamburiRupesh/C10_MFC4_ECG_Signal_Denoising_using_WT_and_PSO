@@ -18,12 +18,22 @@
   *Heliyon, 2024*  
   Paper Link: https://www.cell.com/heliyon/fulltext/S2405-8440(24)02202-3
 ---
+## Dataset
 
+The ECG signals used in this project are taken from the **MIT-BIH Arrhythmia Database**, one of the most widely used datasets for ECG signal processing and arrhythmia detection research.
+
+Dataset Link:  
+https://physionet.org/content/mitdb/1.0.0/
+
+The MIT-BIH Arrhythmia Database contains **48 half-hour ECG recordings collected from 47 subjects**, recorded at a sampling frequency of **360 Hz**. Each recording includes annotated heartbeats and rhythm information, making it a standard benchmark dataset for evaluating ECG signal processing algorithms. 
+In this project, ECG signals from this dataset were used to evaluate the performance of the **PSO-based Wavelet Transform denoising framework**.
+
+---
 ## Introduction
 
-Electrocardiogram (ECG) signals represent the electrical activity of the human heart and play a crucial role in diagnosing cardiovascular diseases. A typical ECG waveform consists of the **P wave, QRS complex, and T wave**, which correspond to different stages of the cardiac cycle. Accurate analysis of these components helps clinicians detect abnormalities such as arrhythmias, myocardial infarction, and other cardiac disorders.
+Electrocardiogram (ECG) signals represent the electrical activity of the heart and are essential for diagnosing cardiovascular diseases. A typical ECG waveform includes the P wave, QRS complex, and T wave, which correspond to different stages of the cardiac cycle and help clinicians detect abnormalities such as arrhythmias and myocardial infarction.
 
-However, ECG signals recorded in practical environments are often contaminated by various types of noise and artifacts. These disturbances distort important signal characteristics and reduce the reliability of automated diagnostic systems. Therefore, effective ECG signal denoising is a critical preprocessing step in biomedical signal processing.
+In practical environments, ECG signals are often affected by noise and artifacts that distort important signal characteristics. Therefore, effective ECG signal denoising is a critical preprocessing step to ensure reliable analysis and accurate automated diagnosis.
 
 ECG signals are considered **NON-STATIONARY**, meaning that their statistical properties, such as frequency content and amplitude, vary over time. Because of this time-varying behavior, traditional signal processing techniques based on fixed frequency assumptions are often insufficient for effective noise removal.
 
@@ -532,3 +542,14 @@ Execution time: **60.521735 seconds**
 ![SNR Improvement Plot](images/snr_improvement_plot.png)
 
 **Figure 10:** SNR improvement observation of 50 particles.
+--
+## Execution Details
+
+The experiments were performed on the following platform:
+
+| Parameter | Details |
+|----------|--------|
+| Platform | Laptop |
+| Programming Language | MATLAB |
+| Hardware | CPU |
+| Timing Method | `tic` / `toc` |
