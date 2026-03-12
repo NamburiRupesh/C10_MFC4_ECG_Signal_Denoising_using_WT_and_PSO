@@ -17,9 +17,6 @@
 - **An Efficient ECG Signals Denoising Technique Based on the Combination of Particle Swarm Optimisation and Wavelet Transform**  
   *Heliyon, 2024*  
   Paper Link: https://www.cell.com/heliyon/fulltext/S2405-8440(24)02202-3
-
-- Additional references include standard literature on Discrete Wavelet Transform (DWT) and Particle Swarm Optimisation (PSO) for signal denoising and feature optimisation.
-
 ---
 
 ## Introduction
@@ -103,3 +100,123 @@ As shown in **Figure 1**, the ECG signal is first decomposed into multiple level
 In the **thresholding phase**, threshold values are applied to the wavelet coefficients to suppress noise while preserving important signal characteristics.
 
 Finally, in the **reconstruction phase**, the denoised signal is reconstructed using the inverse Discrete Wavelet Transform (iDWT) by combining the processed approximation and detail coefficients.
+
+---
+### 1. ECG Signal Decomposition
+
+In the first stage of the wavelet denoising process, the ECG signal is decomposed into multiple levels using the **Discrete Wavelet Transform (DWT)**. At each decomposition level, the signal is separated into two components:
+
+- **Approximation coefficients (cA)** – representing the low-frequency components of the ECG signal.
+- **Detail coefficients (cD)** – representing the high-frequency components where most of the noise is present.
+
+The decomposition process is performed using **low-pass and high-pass filters** followed by **downsampling**, producing a multi-resolution representation of the signal.
+
+The approximation and detail coefficients at level *i* are defined as:
+
+$$
+cA_i(t) = \sum_{k=-\infty}^{\infty} cA_{i-1}(k)\,\phi_i(t-k)
+$$
+
+$$
+cD_i(t) = \sum_{k=-\infty}^{\infty} cD_{i-1}(k)\,\psi_i(t-k)
+$$
+
+Where:
+
+- $cA_i(t)$ represents the **approximation coefficients** at level $i$
+- $cD_i(t)$ represents the **detail coefficients** at level $i$
+- $\phi$ represents the **scaling function**
+- $\psi$ represents the **wavelet function**
+
+During decomposition, **only the approximation coefficients (cA)** are further decomposed into the next level, while the **detail coefficients (cD)** are directly forwarded to the **thresholding stage** for noise suppression.
+
+This hierarchical decomposition enables efficient separation of high-frequency noise from the useful ECG signal.
+
+
+---
+
+### 2. Thresholding
+
+Thresholding is the second stage of the wavelet denoising process. After the ECG signal is decomposed using the Discrete Wavelet Transform (DWT), thresholding is applied to the **detail coefficients**, where noise components are dominant. The goal of thresholding is to suppress noise while preserving the important features of the ECG signal.
+
+The threshold value is estimated based on the noise level of the wavelet coefficients. In this work, the **Minimax thresholding technique** is used to determine the optimal threshold value that minimizes the maximum mean square error (MSE) between the original and denoised signals.
+
+The threshold value $\delta$ is calculated as:
+
+$$
+\delta =
+\begin{cases}
+\sigma (0.3936 + 0.1829 \log_2(N)), & N > 32 \\
+0, & N \le 32
+\end{cases}
+$$
+
+Where:
+
+- $\delta$ = Threshold value  
+- $\sigma$ = Estimated noise standard deviation  
+- $N$ = Length of the signal  
+
+The noise standard deviation is estimated using the **Median Absolute Deviation (MAD)** method:
+
+$$
+\sigma = \frac{\text{median}(|D_{ij}|)}{0.6745}
+$$
+
+Where:
+
+- $D_{ij}$ represents the **detail coefficients at unit scale**
+
+---
+
+The general thresholding operation applied to the noisy wavelet coefficients is expressed as:
+
+$$
+Z = THR(\hat{X}, \delta)
+$$
+
+Where:
+
+- $THR$ represents the **thresholding function**
+- $\hat{X}$ represents the **wavelet coefficient**
+- $\delta$ represents the **threshold value**
+
+---
+
+### Hard Thresholding
+
+Hard thresholding removes coefficients whose absolute value is smaller than the threshold.
+
+$$
+\hat{x}_{di}(l) =
+\begin{cases}
+\hat{x}_{di}(l), & |\hat{x}_{di}(l)| \ge \delta_l \\
+0, & |\hat{x}_{di}(l)| < \delta_l
+\end{cases}
+$$
+
+![Hard Thresholding](images/hard_threshold.png)
+
+**Figure 2:** Hard thresholding function.
+
+---
+
+### Soft Thresholding
+
+Soft thresholding shrinks the coefficients toward zero after thresholding, producing smoother results.
+
+$$
+\hat{x}_{di}(l) =
+\begin{cases}
+\hat{x}_{di}(l) - |\delta_l|, & |\hat{x}_{di}(l)| \ge \delta_l \\
+0, & |\hat{x}_{di}(l)| < \delta_l
+\end{cases}
+$$
+
+![Soft Thresholding](images/soft_threshold.png)
+
+**Figure 3:** Soft thresholding function.
+
+---
+
+Soft thresholding generally provides smoother signal reconstruction compared to hard thresholding, making it more suitable for ECG signal denoising.
