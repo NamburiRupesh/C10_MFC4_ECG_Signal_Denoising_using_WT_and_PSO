@@ -352,7 +352,7 @@ Each particle explores different combinations of these parameters in the search 
 Through iterative updates of particle positions and velocities, the swarm gradually converges toward the parameter configuration that produces the best denoising performance.
 
 
---
+---
 ### Proposed Method Workflow
 
 The overall workflow of the proposed ECG denoising method is illustrated in **Figure 4**.
@@ -398,7 +398,7 @@ The main steps of the PSO algorithm used in this work are:
 
 Using these optimized parameters, the ECG signal is denoised using **Discrete Wavelet Transform (DWT)** and the final signal is reconstructed using **inverse DWT (iDWT)**.
 
---
+---
 ### Mathematical Formulation of PSO
 
 In the PSO algorithm, each particle moves in the search space by updating its **velocity** and **position** at every iteration. These updates guide the particles toward better solutions.
@@ -438,7 +438,7 @@ Where:
 
 Through these iterative updates, particles move toward the best solutions discovered by both their own experience (**pbest**) and the swarm (**gbest**).
 
---
+---
 ### Fitness Function for Optimization
 
 To evaluate the quality of each particle in the swarm, a **fitness function** is used. The fitness function measures how well the selected wavelet parameters improve the quality of the ECG signal after denoising.
@@ -465,7 +465,7 @@ During the optimization process, each particle's parameter set is applied to the
 
 This section presents the results of the proposed **PSO-based Wavelet Transform ECG denoising method** and **Wavelet Operation Analysis**. Several toy signals were first used to validate the PSO approach, followed by experiments on a real ECG signal.
 
---
+---
 ## Wavelet Operation Analysis
 
 To understand the computational cost of basic wavelet operations, we analyzed the execution time required for **wavelet shifting** and **wavelet scaling**. These operations form the basis of wavelet transform analysis and are important for understanding the computational behavior of the denoising process.
@@ -542,7 +542,8 @@ Execution time: **60.521735 seconds**
 ![SNR Improvement Plot](images/snr_improvement_plot.png)
 
 **Figure 10:** SNR improvement observation of 50 particles.
---
+
+---
 ## Execution Details
 
 The experiments were performed on the following platform:
